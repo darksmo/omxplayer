@@ -10,8 +10,3 @@ group :development do
   gem 'rb-fsevent', '~> 0.9'
   gem 'terminal-notifier-guard'
 end
-
-group :queue do
-  gem 'eventmachine'
-  gem 'em-websocket'
-end
