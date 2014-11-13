@@ -5,8 +5,8 @@ module Omx
       def now_playing
         @r ||= begin
           results = status_pattern.match(status_command)
-          # [time, audio_out, filename]
-          results ? results.captures : [nil, nil, nil]
+          # [time, audio_out, adev, filename]
+          results ? results.captures : [nil, nil, nil, nil]
         end
       end
 
@@ -19,7 +19,8 @@ module Omx
       end
 
       def filename
-        now_playing[2].gsub /"/, ''
+        result = now_playing[3].gsub /"/, ''
+        return result
       end
 
       def playing?
@@ -42,7 +43,7 @@ module Omx
       private
 
         def status_pattern
-          /([\d:.]+) \S*omxplayer\S* --adev (\S+).*("\S+") < \S+/
+            /^\s*([\d:.]+) \S*omxplayer\S* --adev (\S+)( --pos [\d+])?\s+("\S+"|\S+)( < \S+)?$/
         end
 
         def status_command
